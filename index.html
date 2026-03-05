@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSTV Weather Beacon</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <span class="brand">WFAA Radar SSTV Beacon</span>
+            <span id="timer-display">READY</span>
+        </header>
+
+        <main class="monitor-frame">
+            <canvas id="scan-monitor"></canvas>
+        </main>
+
+        <footer>
+            <div id="status">System Standby</div>
+            <button id="start-btn">Initialize Beacon</button>
+        </footer>
+    </div>
+    <img id="radar-data-source" style="display:none;">
+    <script src="app.js"></script>
+</body>
+</html>
