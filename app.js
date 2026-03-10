@@ -105,7 +105,7 @@ function generateSSTV(image, onComplete) {
     // --- LEADING SYNC TONE ---
     // Increase LEADER_MS to make the initial "wake up" beep longer (e.g., 2000 for 2 seconds)
     // Decrease it to make it shorter.
-    const LEADER_MS = 1000; 
+    const LEADER_MS = 1500; 
     const LEADER_FREQ = 1200; 
     addTone(LEADER_FREQ, LEADER_MS);
 
@@ -158,3 +158,4 @@ function generateSSTV(image, onComplete) {
     source.start(0);
     requestAnimationFrame(updateVisuals);
 }
+
