@@ -4,6 +4,8 @@
 // The "secret" code is f1fdj3vT4yPzXtaIwumbkMApaOKTsVBZ
 // This one works but may need to be updated if the API changes. It also may not work if the radar gif changes, so you may need to update the GIF_URL variable if that happens.
 
+// Updated with a 1-second leading tone for Arduino/Baofeng synchronization
+
 const SECRET = 'f1fdj3vT4yPzXtaIwumbkMApaOKTsVBZ';
 const GIF_URL = "https://cdn.tegna-media.com/wfaa/weather/animated-loops/comp/temp_880x495/new_dma.gif";
 const BEACON_INTERVAL = 7 * 60 * 1000; // 7 Minutes
@@ -29,7 +31,6 @@ startBtn.addEventListener('click', async () => {
 async function runBeaconCycle() {
     await fetchAndTransmit();
     
-    // Schedule the next run in 7 minutes
     let timeLeft = BEACON_INTERVAL / 1000;
     const timer = setInterval(() => {
         timeLeft--;
@@ -75,16 +76,17 @@ function generateSSTV(image, onComplete) {
     canvas.width = 320; canvas.height = 256;
     const ctx = canvas.getContext('2d');
     
-    const cropScale = 0.60;
+    const cropScale = 0.60; // 60% Zoom
     const sWidth = image.naturalWidth * cropScale;  
     const sHeight = image.naturalHeight * cropScale; 
-    const sX = (image.naturalWidth - sWidth) * 0.95; 
+    const sX = (image.naturalWidth - sWidth) * 0.95; // Centered on DFW area
     const sY = 80;
 
     ctx.drawImage(image, sX, sY, sWidth, sHeight, 0, 0, 320, 256);
     const pixels = ctx.getImageData(0, 0, 320, 256).data;
     
-    const duration = 112; 
+    // Increased duration from 112 to 113 to account for the 1s header
+    const duration = 113; 
     const buffer = audioCtx.createBuffer(1, SAMPLE_RATE * duration, SAMPLE_RATE);
     const dataArr = buffer.getChannelData(0);
     
@@ -100,6 +102,13 @@ function generateSSTV(image, onComplete) {
         }
     }
 
+    // --- LEADING SYNC TONE ---
+    // Increase LEADER_MS to make the initial "wake up" beep longer (e.g., 2000 for 2 seconds)
+    // Decrease it to make it shorter.
+    const LEADER_MS = 1000; 
+    const LEADER_FREQ = 1200; 
+    addTone(LEADER_FREQ, LEADER_MS);
+
     // Scottie 1 Header & VIS
     addTone(1900, 300); addTone(1200, 10); addTone(1900, 300);
     addTone(1200, 30); addTone(1300, 30); addTone(1100, 30);
@@ -112,8 +121,7 @@ function generateSSTV(image, onComplete) {
         lineStarts.push(pos);
         addTone(1200, 9.0); addTone(1500, 1.5);
         
-        // Channel Index Order (Red:0, Green:1, Blue:2) 
-        // Based on your specific decoder mapping requirements:
+        // Color mapping for your specific decoder (Red, Green, Blue)
         [0, 1, 2].forEach(c => {
             for (let x = 0; x < 320; x++) {
                 const val = pixels[(y * 320 + x) * 4 + c];
