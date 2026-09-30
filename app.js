@@ -1,8 +1,8 @@
 // Radar Site - SSTV Beacon Transmitter
-// This app waas created by aiden mitchell
-// remember that this uses ConvertAPI.com to convert the radar gif to a jpg, so it may not work if the API is down or if you exceed the free usage limits.
-// The "secret" code is f1fdj3vT4yPzXtaIwumbkMApaOKTsVBZ
-// This one works but may need to be updated if the API changes. It also may not work if the radar gif changes, so you may need to update the GIF_URL variable if that happens.
+// This app waas created by aiden m.
+// this uses ConvertAPI.com to convert the radar gif to a jpg, so after the free trial API is used up it will stop working.
+// The "secret" code is f1fdj3vT4yPzXtaIwumbkMApaOKTsVBZ - i dont care because its a free tier anyone can sign up. 
+// Using Scotie DX. Color mapping fixed. 
 
 // Updated with a 1-second leading tone for Arduino/Baofeng synchronization
 
